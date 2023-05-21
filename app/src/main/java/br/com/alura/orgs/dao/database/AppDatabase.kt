@@ -13,7 +13,7 @@ import br.com.alura.orgs.model.Usuario
 
 @Database(entities = [Produto::class,
                      Usuario::class],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 @TypeConverters(Conversor::class)
@@ -24,13 +24,17 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun usuarioDao(): UsuarioDao
 
     companion object {
+        @Volatile
+        private var db: AppDatabase? = null
         fun instancia(context: Context) : AppDatabase {
             return Room.databaseBuilder(
                 context,
                 AppDatabase::class.java,
                 "orgs.db"
-            ).allowMainThreadQueries()
-                .build()
+            ).fallbackToDestructiveMigration()
+                .build().also {
+                    db = it
+                }
         }
     }
 }
