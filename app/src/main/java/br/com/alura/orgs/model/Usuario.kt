@@ -8,4 +8,5 @@ data class Usuario(
     @PrimaryKey
     val id: String,
     val nome: String,
-    val senha: String)
+    val senha: String
+)

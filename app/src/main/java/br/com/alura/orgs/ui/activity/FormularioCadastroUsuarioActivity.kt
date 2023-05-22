@@ -5,7 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import br.com.alura.orgs.dao.database.AppDatabase
+import br.com.alura.orgs.database.AppDatabase
 import br.com.alura.orgs.databinding.ActivityFormularioCadastroUsuarioBinding
 import br.com.alura.orgs.model.Usuario
 import kotlinx.coroutines.launch

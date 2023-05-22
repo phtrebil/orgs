@@ -1,29 +1,28 @@
 package br.com.alura.orgs.ui.activity
 
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import br.com.alura.orgs.R
-import br.com.alura.orgs.dao.database.AppDatabase
+import br.com.alura.orgs.database.AppDatabase
 import br.com.alura.orgs.databinding.ActivityDetalhesProdutoBinding
 import br.com.alura.orgs.extensions.formataParaMoedaBrasileira
 import br.com.alura.orgs.extensions.tentaCarregarImagem
 import br.com.alura.orgs.model.Produto
-
-private const val TAG = "DetalhesProduto"
-
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class DetalhesProdutoActivity : AppCompatActivity() {
 
     private var produtoId: Long = 0L
     private var produto: Produto? = null
-
     private val binding by lazy {
         ActivityDetalhesProdutoBinding.inflate(layoutInflater)
     }
-
     private val produtoDao by lazy {
         AppDatabase.instancia(this).produtoDao()
     }
@@ -40,10 +39,14 @@ class DetalhesProdutoActivity : AppCompatActivity() {
     }
 
     private fun buscaProduto() {
-        produto = produtoDao.buscaPorId(produtoId)
-        produto?.let {
-            preencheCampos(it)
-        } ?: finish()
+        lifecycleScope.launch {
+            produtoDao.buscaPorId(produtoId).collect { produtoEncontrado ->
+                produto = produtoEncontrado
+                produto?.let {
+                    preencheCampos(it)
+                } ?: finish()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -52,12 +55,15 @@ class DetalhesProdutoActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val db = AppDatabase.instancia(this)
-        val produtoDao = db.produtoDao()
         when (item.itemId) {
             R.id.menu_detalhes_produto_remover -> {
-                produto?.let { produtoDao.remove(it) }
-                finish()
+                produto?.let {
+                    lifecycleScope.launch {
+                        produtoDao.remove(it)
+                        finish()
+                    }
+                }
+
             }
             R.id.menu_detalhes_produto_editar -> {
                 Intent(this, FormularioProdutoActivity::class.java).apply {
@@ -66,10 +72,8 @@ class DetalhesProdutoActivity : AppCompatActivity() {
                 }
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
-
 
     private fun tentaCarregarProduto() {
         produtoId = intent.getLongExtra(CHAVE_PRODUTO_ID, 0L)

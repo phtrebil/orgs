@@ -1,22 +1,25 @@
-package br.com.alura.orgs.dao.database
+package br.com.alura.orgs.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import br.com.alura.orgs.dao.ProdutoDao
-import br.com.alura.orgs.dao.UsuarioDao
-import br.com.alura.orgs.dao.database.conversores.Conversor
+import br.com.alura.orgs.database.converter.Converters
+import br.com.alura.orgs.database.dao.ProdutoDao
+import br.com.alura.orgs.database.dao.UsuarioDao
 import br.com.alura.orgs.model.Produto
 import br.com.alura.orgs.model.Usuario
 
-@Database(entities = [Produto::class,
-                     Usuario::class],
+@Database(
+    entities = [
+        Produto::class,
+        Usuario::class
+    ],
     version = 2,
     exportSchema = true
 )
-@TypeConverters(Conversor::class)
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun produtoDao(): ProdutoDao
@@ -26,15 +29,15 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var db: AppDatabase? = null
-        fun instancia(context: Context) : AppDatabase {
-            return Room.databaseBuilder(
+        fun instancia(context: Context): AppDatabase {
+            return db ?: Room.databaseBuilder(
                 context,
                 AppDatabase::class.java,
                 "orgs.db"
             ).fallbackToDestructiveMigration()
                 .build().also {
-                    db = it
-                }
+                db = it
+            }
         }
     }
 }
