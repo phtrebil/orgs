@@ -15,6 +15,7 @@ import br.com.alura.orgs.model.Usuario
     entities = [
         Produto::class,
         Usuario::class
+
     ],
     version = 2,
     exportSchema = true
@@ -34,8 +35,7 @@ abstract class AppDatabase : RoomDatabase() {
                 context,
                 AppDatabase::class.java,
                 "orgs.db"
-            ).fallbackToDestructiveMigration()
-                .build().also {
+            ).addMigrations(MIGRATION_1_2g).build().also {
                 db = it
             }
         }
