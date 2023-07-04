@@ -26,7 +26,7 @@ class PerfilUsuarioActivity : UsuarioBaseActivity() {
                 .filterNotNull()
                 .collect { usuarioLogado ->
                     binding.activityPerfilUsuarioId.text = usuarioLogado.id
-                    binding.activitiyPerfilUsuarioNome.text = usuarioLogado.nome
+                    binding.activitiyPerfilUsuarioNome.text = usuarioLogado.email
                 }
         }
     }
