@@ -1,14 +1,15 @@
 package br.com.alura.orgs
 
 import br.com.alura.orgs.model.Usuario
+import org.amshove.kluent.`should be equal to`
 import org.junit.Assert
 import org.junit.Test
 
 
-class TestaUsuario {
+class UsuarioTests {
 
     @Test
-    fun retornaVerdadeiroSeOsDadosDoUsuarioEstaoCertos() {
+    fun `Should retorna Verdadeiro When Os Dados Do Usuario Estao Certos`() {
         val usuarioValido = Usuario(
             id = "usuario",
             email = "usuario@valido.com",
@@ -17,12 +18,12 @@ class TestaUsuario {
 
         val resultado = usuarioValido.ehValido()
 
-        Assert.assertTrue(resultado)
+        resultado `should be equal to` true
     }
 
 
     @Test
-    fun retornaFalsoSeASenhaDoUsuarioEstiverErradaComMenosDe6Caracteres() {
+    fun `Should retorna Falso When A Senha Do Usuario Estiver Errada Com Menos De 6 Caracteres`() {
         val usuarioInvalido = Usuario(
             id = "usuario",
             email = "usuario@valido.com",
@@ -31,6 +32,6 @@ class TestaUsuario {
 
         val resultado = usuarioInvalido.ehValido()
 
-        Assert.assertFalse(resultado)
+        resultado `should be equal to` false
     }
 }
