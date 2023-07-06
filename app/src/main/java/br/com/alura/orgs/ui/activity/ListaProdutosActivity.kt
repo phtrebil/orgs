@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.lifecycle.lifecycleScope
 import br.com.alura.orgs.R
 import br.com.alura.orgs.database.AppDatabase
+import br.com.alura.orgs.database.repository.ProdutoRepository
 import br.com.alura.orgs.databinding.ActivityListaProdutosActivityBinding
 import br.com.alura.orgs.extensions.vaiPara
 import br.com.alura.orgs.ui.recyclerview.adapter.ListaProdutosAdapter
@@ -25,10 +26,6 @@ class ListaProdutosActivity : UsuarioBaseActivity() {
     private val produtoDao by lazy {
         val db = AppDatabase.instancia(this)
         db.produtoDao()
-    }
-
-    private val usuarioDao by lazy {
-        AppDatabase.instancia(this).usuarioDao()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +47,7 @@ class ListaProdutosActivity : UsuarioBaseActivity() {
 
 
     private suspend fun buscaProdutosUsuario(usuarioId: String) {
-        produtoDao.buscaTodosDoUsuario(usuarioId).collect { produtos ->
+        ProdutoRepository(produtoDao).buscaTodosDoUsuario(usuarioId).collect { produtos ->
             adapter.atualiza(produtos)
         }
     }

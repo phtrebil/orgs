@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.lifecycleScope
 import br.com.alura.orgs.database.AppDatabase
+import br.com.alura.orgs.database.repository.UsuarioRepository
 import br.com.alura.orgs.databinding.ActivityLoginBinding
 import br.com.alura.orgs.extensions.toast
 import br.com.alura.orgs.extensions.vaiPara
@@ -41,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun autentica(usuario: String, senha: String) {
         lifecycleScope.launch {
-            usuarioDao.autentica(usuario, senha)?.let { usuario ->
+           UsuarioRepository(usuarioDao).autentica(usuario, senha)?.let { usuario ->
                 dataStore.edit { preferences ->
                     preferences[usuarioLogadoPreferences] = usuario.id
                 }

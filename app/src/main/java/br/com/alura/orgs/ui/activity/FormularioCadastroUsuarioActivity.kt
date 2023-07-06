@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import br.com.alura.orgs.database.AppDatabase
+import br.com.alura.orgs.database.repository.UsuarioRepository
 import br.com.alura.orgs.databinding.ActivityFormularioCadastroUsuarioBinding
 import br.com.alura.orgs.extensions.toast
 import br.com.alura.orgs.model.Usuario
@@ -36,7 +37,7 @@ class FormularioCadastroUsuarioActivity : AppCompatActivity() {
     private fun cadastra(usuario: Usuario) {
         lifecycleScope.launch {
             try {
-                dao.salva(usuario)
+                UsuarioRepository(dao).salva(usuario)
                 finish()
             } catch (e: Exception) {
                 Log.e("CadastroUsuario", "configuraBotaoCadastrar: ", e)
