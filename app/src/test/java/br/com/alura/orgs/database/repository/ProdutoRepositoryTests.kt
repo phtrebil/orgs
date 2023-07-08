@@ -2,34 +2,39 @@ package br.com.alura.orgs.database.repository
 
 import br.com.alura.orgs.database.AppDatabase
 import br.com.alura.orgs.model.Produto
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import org.junit.Assert.*
-
+import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import org.junit.runner.manipulation.Ordering.Context
 import java.math.BigDecimal
 
 class ProdutoRepositoryTests {
 
     @Test
-    fun salva() {
-        //Arrange
+    fun salva() = runTest {
+        // Arrange
         val context = mockk<android.content.Context>()
         val dao = AppDatabase.instancia(context).produtoDao()
         val produtoRepository = ProdutoRepository(dao)
         val produto = Produto(
-            nome= "Uva",
-        descricao = "Uva verde sem caroço",
+            nome = "Uva",
+            descricao = "Uva verde sem caroço",
             valor = BigDecimal("8.99")
-            )
+        )
 
-        //Act
+        // Act
+        coEvery  {
+            dao.salva(produto)
+        }.returns(Unit)
+
+        // Act
         produtoRepository.salva(produto)
 
-        verify {
+        // Verify
+         coVerify {
             dao.salva(produto)
         }
-
     }
 }
