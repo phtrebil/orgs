@@ -17,7 +17,7 @@ import br.com.alura.orgs.model.Usuario
         Usuario::class
 
     ],
-    version = 2,
+    version = 3,
     exportSchema = true
 )
 @TypeConverters(Converters::class)
