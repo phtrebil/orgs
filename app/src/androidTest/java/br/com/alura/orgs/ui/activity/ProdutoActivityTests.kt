@@ -1,12 +1,10 @@
-package br.com.alura.orgs
+package br.com.alura.orgs.ui.activity
 
 import androidx.test.core.app.ActivityScenario.launch
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
-import br.com.alura.orgs.ui.activity.FormularioProdutoActivity
-import br.com.alura.orgs.ui.activity.ListaProdutosActivity
+import br.com.alura.orgs.R
 import org.junit.Test
 
 class ProdutoActivityTests {
