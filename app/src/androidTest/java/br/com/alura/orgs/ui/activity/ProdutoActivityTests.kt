@@ -27,10 +27,13 @@ class ProdutoActivityTests {
 
     @Test fun deveSerCapazDePreencherFormularioESalvar(){
         launch(FormularioProdutoActivity::class.java)
-        onView(withId(R.id.activity_formulario_produto_nome)).perform(ViewActions.typeText("Banana"), ViewActions.pressBack())
-        onView(withId(R.id.activity_formulario_produto_descricao)).perform(ViewActions.typeText("Banana Prata"), ViewActions.pressBack())
-        onView(withId(R.id.activity_formulario_produto_valor)).perform(ViewActions.typeText("6.99"), ViewActions.pressBack())
+        onView(withId(R.id.activity_formulario_produto_nome)).perform(ViewActions.typeText("Banana"), ViewActions.closeSoftKeyboard())
+        onView(withId(R.id.activity_formulario_produto_descricao)).perform(ViewActions.typeText("Banana Prata"), ViewActions.closeSoftKeyboard())
+        onView(withId(R.id.activity_formulario_produto_valor)).perform(ViewActions.typeText("6.99"), ViewActions.closeSoftKeyboard())
         onView(withId(R.id.activity_formulario_produto_botao_salvar)).perform(ViewActions.click())
+
+        launch(ListaProdutosActivity::class.java)
+        onView((withText("Banana"))).check(matches(isDisplayed()))
 
     }
 }
