@@ -1,5 +1,6 @@
 package br.com.alura.orgs.ui.activity
 
+import UsuarioBaseActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import br.com.alura.orgs.databinding.ActivityPerfilUsuarioBinding

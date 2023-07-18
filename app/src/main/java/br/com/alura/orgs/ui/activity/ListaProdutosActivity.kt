@@ -1,19 +1,18 @@
 package br.com.alura.orgs.ui.activity
 
+import UsuarioBaseActivity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.lifecycleScope
 import br.com.alura.orgs.R
 import br.com.alura.orgs.database.AppDatabase
 import br.com.alura.orgs.database.repository.ProdutoRepository
 import br.com.alura.orgs.databinding.ActivityListaProdutosActivityBinding
-import br.com.alura.orgs.extensions.vaiPara
 import br.com.alura.orgs.ui.recyclerview.adapter.ListaProdutosAdapter
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 
@@ -28,6 +27,7 @@ class ListaProdutosActivity : UsuarioBaseActivity() {
         db.produtoDao()
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -35,23 +35,10 @@ class ListaProdutosActivity : UsuarioBaseActivity() {
         configuraFab()
         lifecycleScope.launch {
             launch {
-                usuario
-                    .filterNotNull()
-                    .collect {
-                        buscaProdutosUsuario(it.id)
-                    }
+                buscaProdutos()
             }
         }
     }
-
-
-
-    private suspend fun buscaProdutosUsuario(usuarioId: String) {
-        ProdutoRepository(produtoDao).buscaTodosDoUsuario(usuarioId).collect { produtos ->
-            adapter.atualiza(produtos)
-        }
-    }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_lista_produtos, menu)
@@ -59,12 +46,20 @@ class ListaProdutosActivity : UsuarioBaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.menu_lista_produtos_perfil_usuario -> {
-                vaiPara(PerfilUsuarioActivity::class.java)
+                lifecycleScope.launch {
+                    deslogaUsuario()
+                }
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private suspend fun buscaProdutos() {
+        ProdutoRepository(produtoDao).buscaTodos().collect { produtos ->
+            adapter.atualiza(produtos)
+        }
     }
 
     private fun configuraFab() {
