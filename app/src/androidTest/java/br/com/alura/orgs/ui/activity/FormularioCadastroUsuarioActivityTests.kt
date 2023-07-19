@@ -10,6 +10,8 @@ import br.com.alura.orgs.R
 import org.junit.Test
 
 class FormularioCadastroUsuarioActivityTests{
+
+
     @Test
     fun deveMostrarCamposNecessariosParaFazerOCadastro(){
         launch(FormularioCadastroUsuarioActivity::class.java)

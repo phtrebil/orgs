@@ -5,17 +5,18 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.platform.app.InstrumentationRegistry
+import br.com.alura.orgs.database.AppDatabase
 import br.com.alura.orgs.ui.activity.FormularioProdutoActivity
+import br.com.alura.orgs.ui.activity.ListaProdutosActivity
+import org.junit.Before
 import org.junit.Test
 
 class ProdutoActivityTest {
 
-    @Test
-    fun deveMostrarONomeDoAplicativo() {
-        launch(FormularioProdutoActivity::class.java)
-        onView(withText("Orgs")).check(matches(isDisplayed()))
+    @Before fun preparaAmbiente(){
+        AppDatabase.instancia(InstrumentationRegistry.getInstrumentation().targetContext).clearAllTables()
     }
-
     @Test
     fun deveMostrarCamposNecessarioParaCriarUmProduto() {
         launch(FormularioProdutoActivity::class.java)
@@ -47,6 +48,10 @@ class ProdutoActivityTest {
 
         onView(withId(R.id.activity_formulario_produto_botao_salvar))
             .perform(click())
+
+        launch(ListaProdutosActivity::class.java)
+
+        onView(withText("Banana")).check(matches(isDisplayed()))
 
     }
 }
