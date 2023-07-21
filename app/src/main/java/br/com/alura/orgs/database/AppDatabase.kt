@@ -5,6 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.viewbinding.BuildConfig
+import br.com.alura.orgs.BuildConfig.*
 import br.com.alura.orgs.database.converter.Converters
 import br.com.alura.orgs.database.dao.ProdutoDao
 import br.com.alura.orgs.database.dao.UsuarioDao
@@ -34,7 +36,8 @@ abstract class AppDatabase : RoomDatabase() {
             return db ?: Room.databaseBuilder(
                 context,
                 AppDatabase::class.java,
-                "orgs.db"
+                DATABASE_NAME
+
             ).addMigrations(
                 MIGRATION_1_2,
                 MIGRATION_2_3,
