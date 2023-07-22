@@ -29,29 +29,60 @@ class ProdutoActivityTest {
 
     @Test
     fun deveSerCapazDePreencherOsCamposESalvar() {
-        launch(FormularioProdutoActivity::class.java)
+        launch(ListaProdutosActivity::class.java)
+
+        clicaNoFab()
+        preencheCamposDoFormulario("Banana", "Banana Prata", "6.99")
+        clicaEmSalvar()
+
+        checaProduto("Banana")
+
+    }
+
+    private fun checaProduto(nome: String) {
+        onView(withText(nome)).check(matches(isDisplayed()))
+    }
+
+    private fun preencheCamposDoFormulario(nome:String, descricao:String, valor: String) {
         onView(withId(R.id.activity_formulario_produto_nome))
             .perform(
-                typeText("Banana"),
+                replaceText(nome),
                 closeSoftKeyboard()
             )
         onView(withId(R.id.activity_formulario_produto_descricao))
             .perform(
-                typeText("banana prata"),
+                replaceText(descricao),
                 closeSoftKeyboard()
             )
         onView(withId(R.id.activity_formulario_produto_valor))
             .perform(
-                typeText("6.99"),
+                replaceText(valor),
                 closeSoftKeyboard()
             )
+    }
 
+    private fun clicaNoFab() {
+        onView(withId(R.id.activity_lista_produtos_fab)).perform(click())
+    }
+
+    @Test
+    fun deveSerCapazDeEditarUmProduto(){
+        deveSerCapazDePreencherOsCamposESalvar()
+
+        onView(withText("Banana")).perform(click())
+
+        onView(withId(R.id.menu_detalhes_produto_editar)).perform(click())
+
+        preencheCamposDoFormulario("Limao", "Limao Siciliano", "8.99")
+
+        clicaEmSalvar()
+
+        checaProduto("Limao")
+
+    }
+
+    private fun clicaEmSalvar() {
         onView(withId(R.id.activity_formulario_produto_botao_salvar))
             .perform(click())
-
-        launch(ListaProdutosActivity::class.java)
-
-        onView(withText("Banana")).check(matches(isDisplayed()))
-
     }
 }

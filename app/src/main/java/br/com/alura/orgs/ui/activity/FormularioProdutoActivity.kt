@@ -1,6 +1,5 @@
 package br.com.alura.orgs.ui.activity
 
-import UsuarioBaseActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import br.com.alura.orgs.database.AppDatabase
@@ -13,7 +12,7 @@ import br.com.alura.orgs.ui.dialog.FormularioImagemDialog
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
-class FormularioProdutoActivity : UsuarioBaseActivity() {
+class FormularioProdutoActivity: UsuarioBaseActivity() {
 
     private val binding by lazy {
         ActivityFormularioProdutoBinding.inflate(layoutInflater)

@@ -1,22 +1,20 @@
 package br.com.alura.orgs.ui.activity
 
-import UsuarioBaseActivity
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.lifecycleScope
 import br.com.alura.orgs.R
 import br.com.alura.orgs.database.AppDatabase
 import br.com.alura.orgs.database.repository.ProdutoRepository
 import br.com.alura.orgs.databinding.ActivityListaProdutosActivityBinding
 import br.com.alura.orgs.ui.recyclerview.adapter.ListaProdutosAdapter
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
-class ListaProdutosActivity : UsuarioBaseActivity() {
+class ListaProdutosActivity: UsuarioBaseActivity() {
 
     private val adapter = ListaProdutosAdapter(context = this)
     private val binding by lazy {

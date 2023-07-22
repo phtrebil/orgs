@@ -1,10 +1,11 @@
+package br.com.alura.orgs.ui.activity
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.preferences.core.edit
 import br.com.alura.orgs.extensions.vaiPara
 import br.com.alura.orgs.preferences.dataStore
 import br.com.alura.orgs.preferences.usuarioLogadoPreferences
-import br.com.alura.orgs.ui.activity.LoginActivity
 
 abstract class UsuarioBaseActivity : AppCompatActivity() {
 
