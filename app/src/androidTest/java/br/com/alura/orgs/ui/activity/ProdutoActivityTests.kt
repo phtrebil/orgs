@@ -1,25 +1,32 @@
 package br.com.alura.orgs
 
 import androidx.test.core.app.ActivityScenario.launch
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry
 import br.com.alura.orgs.database.AppDatabase
 import br.com.alura.orgs.ui.activity.FormularioProdutoActivity
 import br.com.alura.orgs.ui.activity.ListaProdutosActivity
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
-class ProdutoActivityTest {
+class ProdutoTelasTest {
+
+    @get:Rule
+    val rule = ActivityScenarioRule(ListaProdutosActivity::class.java)
 
     @Before fun preparaAmbiente(){
         AppDatabase.instancia(InstrumentationRegistry.getInstrumentation().targetContext).clearAllTables()
     }
     @Test
     fun deveMostrarCamposNecessarioParaCriarUmProduto() {
-        launch(FormularioProdutoActivity::class.java)
+
+        clicaNoFab()
 
         onView(withId(R.id.activity_formulario_produto_nome)).check(matches(isDisplayed()))
         onView(withId(R.id.activity_formulario_produto_descricao)).check(matches(isDisplayed()))
@@ -29,7 +36,6 @@ class ProdutoActivityTest {
 
     @Test
     fun deveSerCapazDePreencherOsCamposESalvar() {
-        launch(ListaProdutosActivity::class.java)
 
         clicaNoFab()
         preencheCamposDoFormulario("Banana", "Banana Prata", "6.99")
@@ -78,6 +84,8 @@ class ProdutoActivityTest {
         clicaEmSalvar()
 
         checaProduto("Limao")
+
+        Espresso.pressBack()
 
     }
 
